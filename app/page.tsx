@@ -5,9 +5,7 @@ import {
   Terminal, 
   Code2, 
   Users, 
-  Calendar, 
   Trophy, 
-  ArrowRight, 
   Github, 
   Linkedin, 
   Twitter,
@@ -17,39 +15,11 @@ import {
   ChevronDown,
   ExternalLink,
   Star,
-  Zap,
-  Target,
   Rocket,
-  Cpu,
-  Shield,
-  Database,
-  Globe,
-  Binary,
-  Hash,
-  Activity,
-  Wifi,
-  HardDrive,
   Monitor,
-  Folder,
-  File,
-  Power,
-  Skull,
-  Eye,
-  Lock,
-  Unlock,
-  Bug,
-  Scan,
-  Server,
-  Braces,
   Instagram,
-  Award,
-  Crown,
-  Image,
   Play,
   MessageCircle,
-  Send,
-  Network,
-  Flame,
   Heart
 } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
@@ -59,29 +29,45 @@ const MatrixRain = () => {
   const [drops, setDrops] = useState<Array<{id: number, x: number, chars: string[], color: string}>>([])
   
   useEffect(() => {
-    const chars = '01010101アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'
-    const colors = ['text-red-400', 'text-blue-400', 'text-purple-400', 'text-pink-400', 'text-indigo-400', 'text-cyan-400']
-    const newDrops = Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      chars: Array.from({ length: 15 }, () => chars[Math.floor(Math.random() * chars.length)]),
-      color: colors[Math.floor(Math.random() * colors.length)]
-    }))
-    setDrops(newDrops)
+    const chars = '01010101アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ{}[]()<>/\\|_+-=*&^%$#@!?'
+    const colors = ['text-red-400', 'text-blue-400', 'text-purple-400', 'text-pink-400', 'text-indigo-400', 'text-cyan-400', 'text-green-400', 'text-yellow-400']
+    
+    const createDrops = () => {
+      const dropCount = 50 // Fixed number for consistency
+      return Array.from({ length: dropCount }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        chars: Array.from({ length: Math.floor(Math.random() * 15) + 8 }, () => chars[Math.floor(Math.random() * chars.length)]),
+        color: colors[Math.floor(Math.random() * colors.length)]
+      }))
+    }
+    
+    setDrops(createDrops())
   }, [])
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-20">
       {drops.map((drop) => (
-      <div
-        key={drop.id}
-        className={`absolute ${drop.color} text-sm font-mono`}
-        style={{ left: `${drop.x}%`, top: "0" }}
-      >
-        {drop.chars.map((char, i) => (
-        <div key={i}>{char}</div>
-        ))}
-      </div>
+        <div
+          key={drop.id}
+          className={`absolute ${drop.color} text-sm font-mono leading-tight`}
+          style={{ 
+            left: `${drop.x}%`,
+            top: `${Math.random() * 100}%`
+          }}
+        >
+          {drop.chars.map((char, i) => (
+            <div 
+              key={i}
+              className="block h-4"
+              style={{
+                opacity: Math.max(0.1, 1 - (i * 0.15))
+              }}
+            >
+              {char}
+            </div>
+          ))}
+        </div>
       ))}
     </div>
   )
@@ -99,8 +85,8 @@ const TerminalWindow = ({ title, children, className = "" }: {
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
   >
-    <div className="bg-gradient-to-r from-blue-600 to-red-600 text-white px-4 py-2 font-mono text-sm flex items-center justify-between">
-      <span>technojam@dev:~# {title}</span>
+    <div className="bg-gradient-to-r from-blue-700 to-red-700 text-white px-4 py-2 font-mono text-sm flex items-center justify-between">
+      <TypeWriter  text={`technojam@dev:~# ${title}`} delay={100} />
       <div className="flex space-x-2">
         <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
         <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse delay-100"></div>
@@ -113,7 +99,6 @@ const TerminalWindow = ({ title, children, className = "" }: {
   </motion.div>
 )
 
-// Typewriter Effect
 const TypeWriter = ({ text, delay = 50, onComplete }: { 
   text: string
   delay?: number
@@ -177,7 +162,7 @@ const SystemStatus = () => {
 }
 
 // Navigation Component
-const Navbar = () => {
+const Navbar = ({ openTerminal }: { openTerminal: () => void }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -193,6 +178,13 @@ const Navbar = () => {
             className="flex items-center space-x-3 font-mono"
             whileHover={{ scale: 1.05 }}
           >
+            <motion.img 
+              src="/tj.png" 
+              alt="TechnoJam Logo" 
+              className="h-10 w-10 rounded-full border-2 border-cyan-400/50"
+              whileHover={{ rotate: 360, borderColor: "#00ffff" }}
+              transition={{ duration: 0.6 }}
+            />
             <Terminal className="h-8 w-8 text-cyan-400" />
             <span className="text-cyan-400 text-xl font-bold">
               <TypeWriter text="technojam@dev:~$" delay={100} />
@@ -224,6 +216,7 @@ const Navbar = () => {
               className="bg-gradient-to-r from-blue-500 to-red-500 text-white px-4 py-2 font-bold font-mono hover:from-blue-600 hover:to-red-600 transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={openTerminal}
             >
               sudo join
             </motion.button>
@@ -235,7 +228,7 @@ const Navbar = () => {
 }
 
 // Hero Component
-const Hero = () => {
+const Hero = ({ openTerminal }: { openTerminal: () => void }) => {
   const [bootSequence, setBootSequence] = useState(0)
   const [showMain, setShowMain] = useState(false)
 
@@ -347,6 +340,7 @@ const Hero = () => {
                 className="bg-gradient-to-r from-blue-500 to-red-500 text-white px-8 py-4 font-mono font-bold hover:from-blue-600 hover:to-red-600 transition-colors flex items-center space-x-2"
                 whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59, 130, 246, 0.5)" }}
                 whileTap={{ scale: 0.95 }}
+                onClick={openTerminal}
               >
                 <Code2 className="w-5 h-5" />
                 <span>./join_community</span>
@@ -408,8 +402,176 @@ const Hero = () => {
   )
 }
 
+// Interactive Terminal Component
+const InteractiveTerminal = ({ isVisible, onClose }: { isVisible: boolean, onClose: () => void }) => {
+  const [input, setInput] = useState('')
+  const [history, setHistory] = useState<string[]>([
+    'technojam@dev:~# Initializing secure connection...',
+    'Welcome to TechnoJam Community Terminal v2.4.1',
+    'Type "sudo join" or "sudo join --now" to connect to our community hub!',
+    'Type "help" for available commands or "exit" to close terminal.',
+    ''
+  ])
+  const [isProcessing, setIsProcessing] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleCommand = (command: string) => {
+    const cmd = command.trim().toLowerCase()
+    setHistory(prev => [...prev, `technojam@dev:~$ ${command}`])
+    
+    if (cmd === 'sudo join' || cmd === 'sudo join --now') {
+      setIsProcessing(true)
+      setHistory(prev => [...prev, '[SUDO] Password for technojam: ****'])
+      
+      setTimeout(() => {
+        setHistory(prev => [...prev, 
+          '[SUCCESS] Authenticated successfully! 🚀',
+          '[INFO] Redirecting to communication hub...',
+          '[INFO] Initializing community connection...',
+          ''
+        ])
+        
+        setTimeout(() => {
+          const contactSection = document.getElementById('contact')
+          contactSection?.scrollIntoView({ behavior: 'smooth' })
+          setIsProcessing(false)
+          onClose() // Close terminal after successful join
+        }, 1500)
+      }, 2000)
+    } else if (cmd === 'help') {
+      setHistory(prev => [...prev, 
+        'Available commands:',
+        '  sudo join       - Join TechnoJam community',
+        '  sudo join --now - Fast track community access',
+        '  help           - Show this help message',
+        '  clear          - Clear terminal',
+        '  exit           - Close terminal',
+        ''
+      ])
+    } else if (cmd === 'clear') {
+      setHistory([
+        'technojam@dev:~# Initializing secure connection...',
+        'Welcome to TechnoJam Community Terminal v2.4.1',
+        'Type "sudo join" or "sudo join --now" to connect to our community hub!',
+        'Type "help" for available commands or "exit" to close terminal.',
+        ''
+      ])
+    } else if (cmd === 'exit') {
+      setHistory(prev => [...prev, '[INFO] Closing terminal session...', 'Goodbye! 👋'])
+      setTimeout(() => {
+        onClose()
+      }, 1000)
+    } else if (cmd !== '') {
+      setHistory(prev => [...prev, `bash: ${command}: command not found`, 'Try "help" for available commands', ''])
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (input.trim() && !isProcessing) {
+      handleCommand(input)
+      setInput('')
+    }
+  }
+
+  if (!isVisible) return null
+
+  return (
+    <motion.div 
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        className="w-full max-w-4xl mx-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="relative">
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute -top-4 -right-4 z-10 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
+          >
+            ✕
+          </button>
+          
+          <TerminalWindow title="technojam@dev:~$ [SECURE CONNECTION ESTABLISHED]">
+            <div className="h-80 overflow-y-auto font-mono text-sm">
+              {history.map((line, index) => (
+                <div key={index} className="mb-1">
+                  {line.includes('[SUCCESS]') ? (
+                    <span className="text-green-400">{line}</span>
+                  ) : line.includes('[INFO]') ? (
+                    <span className="text-cyan-400">{line}</span>
+                  ) : line.includes('[SUDO]') ? (
+                    <span className="text-yellow-400">{line}</span>
+                  ) : line.includes('bash:') ? (
+                    <span className="text-red-400">{line}</span>
+                  ) : line.includes('technojam@dev:~$') ? (
+                    <span className="text-white">{line}</span>
+                  ) : line.includes('technojam@dev:~#') ? (
+                    <span className="text-cyan-300">{line}</span>
+                  ) : (
+                    <span className="text-gray-300">{line}</span>
+                  )}
+                </div>
+              ))}
+              
+              <form onSubmit={handleSubmit} className="flex items-center">
+                <span className="text-green-400 mr-2">technojam@dev:~$</span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  disabled={isProcessing}
+                  className="bg-transparent outline-none text-white flex-1 font-mono"
+                  placeholder="Type your command..."
+                  autoComplete="off"
+                  autoFocus
+                />
+                {isProcessing && (
+                  <span className="text-yellow-400 animate-pulse ml-2">Processing...</span>
+                )}
+              </form>
+            </div>
+          </TerminalWindow>
+          
+          <motion.div 
+            className="text-center mt-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            <p className="text-gray-400 text-sm font-mono">
+              💡 Commands: <code className="text-cyan-400">sudo join</code> | <code className="text-cyan-400">help</code> | <code className="text-cyan-400">exit</code>
+            </p>
+          </motion.div>
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 // Achievements Component
 const Achievements = () => {
+  const [activeAchievementFilter, setActiveAchievementFilter] = useState('All')
+
+  const achievementFilters = [
+    { name: 'All', icon: Star, color: 'cyan' },
+    { name: 'Frontend', icon: Code2, color: 'blue' },
+    { name: 'Backend', icon: Terminal, color: 'green' },
+    { name: 'AI/ML', icon: Rocket, color: 'purple' },
+    { name: 'Mobile', icon: Phone, color: 'pink' },
+    { name: 'Design', icon: Heart, color: 'yellow' },
+    { name: 'DevOps', icon: Monitor, color: 'orange' }
+  ]
+
   const memberAchievements = [
     { 
       name: "Arjun Kumar", 
@@ -419,7 +581,19 @@ const Achievements = () => {
       skills: ["React", "Node.js", "Python"],
       avatar: "👨‍💻",
       color: "blue",
-      badge: "🏆"
+      badge: "🏆",
+      category: "Frontend"
+    },
+    { 
+      name: "Rahul Singh", 
+      role: "Frontend Specialist", 
+      achievement: "React Community Contributor", 
+      projects: "22+", 
+      skills: ["React", "Vue.js", "TypeScript"],
+      avatar: "👨‍💻",
+      color: "blue",
+      badge: "⚛️",
+      category: "Frontend"
     },
     { 
       name: "Priya Sharma", 
@@ -429,7 +603,19 @@ const Achievements = () => {
       skills: ["TensorFlow", "PyTorch", "Python"],
       avatar: "👩‍🔬",
       color: "purple",
-      badge: "🧠"
+      badge: "🧠",
+      category: "AI/ML"
+    },
+    { 
+      name: "Vikash Jha", 
+      role: "ML Research Scientist", 
+      achievement: "Google AI Research Internship", 
+      projects: "8+", 
+      skills: ["Python", "Keras", "Scikit-learn"],
+      avatar: "👨‍🔬",
+      color: "purple",
+      badge: "🤖",
+      category: "AI/ML"
     },
     { 
       name: "Dev Patel", 
@@ -439,7 +625,19 @@ const Achievements = () => {
       skills: ["React Native", "Flutter", "Swift"],
       avatar: "👨‍💼",
       color: "green",
-      badge: "📱"
+      badge: "📱",
+      category: "Mobile"
+    },
+    { 
+      name: "Kavya Reddy", 
+      role: "iOS Developer", 
+      achievement: "Apple WWDC Scholar", 
+      projects: "14+", 
+      skills: ["Swift", "SwiftUI", "Xcode"],
+      avatar: "👩‍💻",
+      color: "green",
+      badge: "🍎",
+      category: "Mobile"
     },
     { 
       name: "Ananya Singh", 
@@ -449,7 +647,19 @@ const Achievements = () => {
       skills: ["Figma", "Adobe XD", "Framer"],
       avatar: "👩‍🎨",
       color: "pink",
-      badge: "🎨"
+      badge: "🎨",
+      category: "Design"
+    },
+    { 
+      name: "Ravi Kumar", 
+      role: "Product Designer", 
+      achievement: "Dribbble Top Shot", 
+      projects: "18+", 
+      skills: ["Sketch", "Principle", "After Effects"],
+      avatar: "👨‍🎨",
+      color: "pink",
+      badge: "🏀",
+      category: "Design"
     },
     { 
       name: "Rohit Mehta", 
@@ -459,19 +669,47 @@ const Achievements = () => {
       skills: ["Docker", "K8s", "AWS"],
       avatar: "👨‍🔧",
       color: "orange",
-      badge: "⚙️"
+      badge: "⚙️",
+      category: "DevOps"
     },
     { 
-      name: "Sneha Gupta", 
-      role: "Blockchain Developer", 
-      achievement: "DeFi Protocol Launch", 
-      projects: "10+", 
-      skills: ["Solidity", "Web3", "Ethereum"],
+      name: "Amit Sharma", 
+      role: "Backend Developer", 
+      achievement: "Microservices Architecture Expert", 
+      projects: "16+", 
+      skills: ["Node.js", "MongoDB", "Redis"],
+      avatar: "👨‍💻",
+      color: "yellow",
+      badge: "🔧",
+      category: "Backend"
+    },
+    { 
+      name: "Neha Gupta", 
+      role: "Backend Engineer", 
+      achievement: "System Design Champion", 
+      projects: "13+", 
+      skills: ["Java", "Spring Boot", "PostgreSQL"],
       avatar: "👩‍💻",
       color: "yellow",
-      badge: "🔗"
+      badge: "🏗️",
+      category: "Backend"
+    },
+    { 
+      name: "Sanjay Patel", 
+      role: "Cloud Architect", 
+      achievement: "AWS Solutions Architect", 
+      projects: "11+", 
+      skills: ["AWS", "Terraform", "Jenkins"],
+      avatar: "�‍�",
+      color: "orange",
+      badge: "☁️",
+      category: "DevOps"
     }
   ]
+
+  const filteredAchievements = activeAchievementFilter === 'All' 
+    ? memberAchievements 
+    : memberAchievements.filter(member => member.category === activeAchievementFilter)
 
   return (
     <section id="achievements" className="min-h-screen flex items-center justify-center p-8">
@@ -482,8 +720,52 @@ const Achievements = () => {
               <TypeWriter text="[SHOWCASE] Outstanding Community Members" delay={50} />
             </div>
 
+            {/* Achievement Filters */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex flex-wrap justify-center gap-3 mb-8"
+            >
+              {achievementFilters.map((filter, index) => {
+                const IconComponent = filter.icon
+                return (
+                  <motion.button
+                    key={filter.name}
+                    onClick={() => setActiveAchievementFilter(filter.name)}
+                    className={`relative px-4 py-2 rounded-md font-mono text-sm font-bold transition-all duration-300 border ${
+                      activeAchievementFilter === filter.name
+                        ? `bg-${filter.color}-400/20 border-${filter.color}-400 text-${filter.color}-400 shadow-lg`
+                        : 'bg-gray-800/50 border-gray-600 text-gray-300 hover:border-gray-400 hover:text-white'
+                    }`}
+                    whileHover={{ 
+                      scale: 1.05,
+                      boxShadow: activeAchievementFilter === filter.name 
+                        ? `0 0 15px rgba(0, 255, 255, 0.3)`
+                        : '0 0 8px rgba(255,255,255,0.2)'
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <IconComponent className="inline w-4 h-4 mr-2" />
+                    {filter.name}
+                    {activeAchievementFilter === filter.name && (
+                      <motion.div
+                        className="absolute inset-0 bg-cyan-400/10 rounded-md"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
+                  </motion.button>
+                )
+              })}
+            </motion.div>
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-              {memberAchievements.map((member, index) => (
+              {filteredAchievements.map((member, index) => (
                 <motion.div 
                   key={index}
                   className="group relative"
@@ -674,9 +956,20 @@ const Achievements = () => {
 
 // Gallery Component
 const Gallery = () => {
+  const [activeFilter, setActiveFilter] = useState('All')
+
+  const galleryFilters = [
+    { name: 'All', icon: Star, color: 'cyan' },
+    { name: 'Hackathons', icon: Trophy, color: 'yellow' },
+    { name: 'Workshops', icon: Monitor, color: 'green' },
+    { name: 'Meetups', icon: Users, color: 'purple' },
+    { name: 'Projects', icon: Code2, color: 'blue' },
+    { name: 'Events', icon: Heart, color: 'pink' }
+  ]
+
   const communityItems = [
     { 
-      name: "Hackathon 2024 Winners", 
+      name: "National Hackathon 2024", 
       type: "Team Photo", 
       date: "Dec 2024", 
       status: "RECENT",
@@ -684,86 +977,122 @@ const Gallery = () => {
       color: "yellow",
       description: "Our amazing team after winning the national hackathon!",
       image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=300&fit=crop&crop=face",
-      teamSize: "12 members"
+      teamSize: "12 members",
+      category: "Hackathons"
     },
     { 
-      name: "Weekly Coding Sessions", 
-      type: "Community Event", 
+      name: "Smart City Hackathon", 
+      type: "Competition", 
       date: "Nov 2024", 
-      status: "ONGOING",
-      icon: Code2,
-      color: "blue",
-      description: "Regular coding sessions and knowledge sharing",
+      status: "WINNER",
+      icon: Trophy,
+      color: "yellow",
+      description: "1st place in Smart City solutions challenge",
       image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400&h=300&fit=crop",
-      teamSize: "25+ attendees"
+      teamSize: "8 members",
+      category: "Hackathons"
     },
     { 
-      name: "Tech Talk Series", 
+      name: "React Workshop Series", 
       type: "Workshop", 
       date: "Oct 2024", 
       status: "POPULAR",
       icon: Monitor,
       color: "green",
-      description: "Industry experts sharing their experiences",
+      description: "Comprehensive React.js training for beginners",
       image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
-      teamSize: "50+ participants"
+      teamSize: "50+ participants",
+      category: "Workshops"
     },
     { 
-      name: "Team Building Retreat", 
-      type: "Team Photo", 
+      name: "AI/ML Bootcamp", 
+      type: "Workshop", 
       date: "Sep 2024", 
-      status: "FEATURED",
-      icon: Users,
-      color: "purple",
-      description: "Annual team retreat with fun activities and bonding",
+      status: "INTENSIVE",
+      icon: Monitor,
+      color: "green",
+      description: "5-day intensive machine learning workshop",
       image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=300&fit=crop",
-      teamSize: "30 members"
+      teamSize: "30 participants",
+      category: "Workshops"
     },
     { 
-      name: "Community Meetup", 
+      name: "Monthly Tech Meetup", 
       type: "Group Photo", 
       date: "Aug 2024", 
-      status: "LOVED",
-      icon: Heart,
-      color: "pink",
+      status: "REGULAR",
+      icon: Users,
+      color: "purple",
       description: "Monthly community gathering with pizza and coding",
       image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=300&fit=crop",
-      teamSize: "40+ members"
+      teamSize: "40+ members",
+      category: "Meetups"
     },
     { 
-      name: "Innovation Showcase", 
-      type: "Demo Day", 
+      name: "Open Source Meetup", 
+      type: "Community Event", 
       date: "Jul 2024", 
-      status: "EPIC",
-      icon: Rocket,
-      color: "orange",
-      description: "Members presenting their innovative projects",
+      status: "COLLABORATIVE",
+      icon: Users,
+      color: "purple",
+      description: "Contributing to open source projects together",
       image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop",
-      teamSize: "15 presenters"
+      teamSize: "25 contributors",
+      category: "Meetups"
     },
     {
-      name: "New Member Orientation",
-      type: "Welcome Event",
+      name: "E-Commerce Platform",
+      type: "Project Demo",
       date: "Jun 2024",
-      status: "FRESH",
+      status: "DEPLOYED",
+      icon: Code2,
+      color: "blue",
+      description: "Full-stack e-commerce solution with React & Node.js",
+      image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400&h=300&fit=crop",
+      teamSize: "6 developers",
+      category: "Projects"
+    },
+    {
+      name: "Mobile Banking App",
+      type: "Project Showcase", 
+      date: "May 2024",
+      status: "INNOVATIVE",
+      icon: Code2,
+      color: "blue",
+      description: "Secure mobile banking app with biometric authentication",
+      image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=300&fit=crop",
+      teamSize: "4 developers",
+      category: "Projects"
+    },
+    {
+      name: "Tech Fest 2024",
+      type: "Annual Event", 
+      date: "Apr 2024",
+      status: "GRAND",
       icon: Star,
       color: "cyan",
-      description: "Welcoming new members to our growing family",
-      image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400&h=300&fit=crop",
-      teamSize: "20+ newcomers"
+      description: "Annual technology festival with competitions & exhibitions",
+      image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop",
+      teamSize: "200+ attendees",
+      category: "Events"
     },
     {
-      name: "Gaming Tournament",
-      type: "Fun Event", 
-      date: "May 2024",
-      status: "EXCITING",
-      icon: Play,
-      color: "indigo",
-      description: "Epic gaming night with prizes and friendly competition",
-      image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=300&fit=crop",
-      teamSize: "35 gamers"
+      name: "Coding Competition",
+      type: "Contest", 
+      date: "Mar 2024",
+      status: "COMPETITIVE",
+      icon: Trophy,
+      color: "yellow",
+      description: "Internal coding competition with algorithmic challenges",
+      image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=300&fit=crop",
+      teamSize: "60 participants",
+      category: "Events"
     }
   ]
+
+  const filteredItems = activeFilter === 'All' 
+    ? communityItems 
+    : communityItems.filter(item => item.category === activeFilter)
 
   return (
     <section id="gallery" className="min-h-screen flex items-center justify-center p-8">
@@ -773,9 +1102,40 @@ const Gallery = () => {
             <div className="text-center">
               <TypeWriter text="$ view --community-memories" delay={50} />
             </div>
+
+            {/* Filter Buttons */}
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              {galleryFilters.map((filter, index) => (
+                <motion.button
+                  key={filter.name}
+                  onClick={() => setActiveFilter(filter.name)}
+                  className={`group relative px-4 py-2 rounded-lg font-mono text-sm border transition-all duration-300 flex items-center gap-2 ${
+                    activeFilter === filter.name 
+                      ? `bg-${filter.color}-500/20 border-${filter.color}-400 text-${filter.color}-300` 
+                      : `bg-gray-800/50 border-gray-600/50 text-gray-400 hover:border-${filter.color}-500/50 hover:text-${filter.color}-400`
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 + index * 0.1 }}
+                >
+                  <filter.icon className="w-4 h-4" />
+                  {filter.name}
+                  {activeFilter === filter.name && (
+                    <motion.div
+                      className={`absolute inset-0 rounded-lg border-2 border-${filter.color}-400/50`}
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  )}
+                </motion.button>
+              ))}
+            </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-              {communityItems.map((item, index) => (
+              {filteredItems.map((item, index) => (
                 <motion.div 
                   key={index}
                   className="group relative bg-gradient-to-br from-black/50 to-gray-900/30 p-6 rounded-xl border border-purple-500/20 overflow-hidden cursor-pointer"
@@ -921,7 +1281,7 @@ const Gallery = () => {
 }
 
 // Contact Component
-const Contact = () => {
+const Contact = ({ openTerminal }: { openTerminal: () => void }) => {
   const socialLinks = [
     { 
       name: "GitHub", 
@@ -930,34 +1290,38 @@ const Contact = () => {
       color: "white",
       description: "Check out our code repositories",
       followers: "2.5K",
-      gradient: "from-gray-700 to-black"
+      gradient: "from-gray-700 to-black",
+      displayUrl: "@technojam"
     },
     { 
       name: "LinkedIn", 
       icon: Linkedin, 
-      url: "https://linkedin.com/company/technojam", 
+      url: "https://www.linkedin.com/company/technojam/", 
       color: "blue",
       description: "Professional networking & updates",
       followers: "1.8K",
-      gradient: "from-blue-600 to-blue-800"
+      gradient: "from-blue-600 to-blue-800",
+      displayUrl: "TechnoJam"
     },
     { 
       name: "Twitter", 
       icon: Twitter, 
-      url: "https://twitter.com/technojam", 
+      url: "https://x.com/technojam_gu", 
       color: "sky",
       description: "Daily tech updates & news",
       followers: "3.2K",
-      gradient: "from-sky-400 to-blue-600"
+      gradient: "from-sky-400 to-blue-600",
+      displayUrl: "@technojam_gu"
     },
     { 
       name: "Instagram", 
       icon: Instagram, 
-      url: "https://instagram.com/technojam", 
+      url: "https://www.instagram.com/teamtechnojam/", 
       color: "pink",
       description: "Behind the scenes moments",
       followers: "4.1K",
-      gradient: "from-pink-500 to-purple-600"
+      gradient: "from-pink-500 to-purple-600",
+      displayUrl: "@teamtechnojam"
     }
   ]
 
@@ -966,6 +1330,7 @@ const Contact = () => {
       icon: Mail,
       title: "Email Us",
       value: "hello@technojam.club",
+      url: "mailto:hello@technojam.club", 
       description: "Get in touch for collaborations",
       color: "red",
       action: "Send Email"
@@ -974,54 +1339,18 @@ const Contact = () => {
       icon: MessageCircle,
       title: "Discord Community",
       value: "TechnoJam Server",
+      url: "https://discord.gg/technojam",
       description: "Join 500+ active members",
       color: "purple",
       action: "Join Discord"
     },
-    {
-      icon: Phone,
-      title: "WhatsApp Group",
-      value: "+91 98765 43210",
-      description: "Quick updates & announcements",
-      color: "green",
-      action: "Join Group"
-    },
-    {
-      icon: MapPin,
-      title: "Visit Us",
-      value: "Innovation Hub, Tech City",
-      description: "Drop by for events & meetups",
-      color: "orange",
-      action: "Get Directions"
-    }
+    
   ]
 
   return (
     <section id="contact" className="min-h-screen flex items-center justify-center p-8 relative overflow-hidden">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-20"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [-20, 20, -20],
-              x: [-10, 10, -10],
-              scale: [1, 1.5, 1],
-              opacity: [0.2, 0.8, 0.2],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
+      
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <TerminalWindow title="/var/connect/communication-hub/">
@@ -1044,66 +1373,40 @@ const Contact = () => {
             </motion.div>
             
             {/* Contact Methods Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {contactMethods.map((method, index) => (
-                <motion.div
-                  key={index}
-                  className="group relative"
-                  initial={{ opacity: 0, y: 50, rotateX: -15 }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                  transition={{ 
-                    duration: 0.6, 
-                    delay: index * 0.15,
-                    type: "spring" 
-                  }}
-                  whileHover={{ 
-                    scale: 1.05, 
-                    rotateY: 8,
-                    z: 50
-                  }}
-                  style={{ transformStyle: "preserve-3d" }}
-                >
-                  <div className={`relative p-6 bg-gradient-to-br from-${method.color}-900/20 via-black/50 to-${method.color}-800/30 rounded-2xl border border-${method.color}-500/30 overflow-hidden cursor-pointer h-48`}>
-                    {/* Animated Background Glow */}
-                    <motion.div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-30"
-                      style={{
-                        background: `radial-gradient(circle at 50% 50%, ${
-                          method.color === 'red' ? '#dc2626' : 
-                          method.color === 'purple' ? '#8b5cf6' : 
-                          method.color === 'green' ? '#10b981' : '#f97316'
-                        }40, transparent 70%)`
-                      }}
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0, 0.3, 0]
-                      }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                    />
-                    
-                    {/* Icon with floating animation */}
-                    <motion.div 
-                      className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-${method.color}-500/30 to-${method.color}-600/50 border-2 border-${method.color}-400/40 mb-4`}
-                      animate={{ 
-                        y: [0, -10, 0],
-                        rotateY: [0, 10, 0, -10, 0]
-                      }}
-                      transition={{ 
-                        duration: 4, 
-                        repeat: Infinity,
-                        delay: index * 0.5
-                      }}
-                    >
-                      <method.icon className={`w-8 h-8 text-${method.color}-400`} />
-                    </motion.div>
+            <div className="flex justify-center">
+              <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl">
+                {contactMethods.map((method, index) => (
+                  <motion.div
+                    key={index}
+                    className="group relative"
+                    initial={{ opacity: 0, y: 50, rotateX: -15 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: index * 0.15,
+                      type: "spring" 
+                    }}
+                    whileHover={{ 
+                      scale: 1.05, 
+                      rotateY: 8,
+                      z: 50
+                    }}
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    <div className={`relative p-6 bg-gradient-to-br from-${method.color}-900/20 via-black/50 to-${method.color}-800/30 rounded-2xl border border-${method.color}-500/30 overflow-hidden cursor-pointer h-48`}>
+                      {/* Icon without floating animation */}
+                      <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-${method.color}-500/30 to-${method.color}-600/50 border-2 border-${method.color}-400/40 mb-4`}>
+                        <method.icon className={`w-8 h-8 text-${method.color}-400`} />
+                      </div>
                     
                     <h3 className={`text-${method.color}-400 font-mono font-bold mb-2`}>
                       {method.title}
                     </h3>
                     
                     <p className="text-cyan-300 text-sm font-mono mb-2">
-                      {method.value}
+                      {method.url}
                     </p>
+
                     
                     <p className="text-gray-400 text-xs mb-4 leading-relaxed">
                       {method.description}
@@ -1123,36 +1426,11 @@ const Contact = () => {
                     >
                       {method.action}
                     </motion.button>
-                    
-                    {/* Floating particles */}
-                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                      {[...Array(3)].map((_, i) => (
-                        <motion.div
-                          key={i}
-                          className={`absolute w-1 h-1 bg-${method.color}-400 rounded-full opacity-0 group-hover:opacity-60`}
-                          style={{
-                            left: `${20 + Math.random() * 60}%`,
-                            top: `${20 + Math.random() * 60}%`,
-                          }}
-                          animate={{
-                            y: [-5, -25, -5],
-                            x: [-5, 5, -5],
-                            opacity: [0, 0.6, 0],
-                          }}
-                          transition={{
-                            duration: 2.5,
-                            repeat: Infinity,
-                            delay: i * 0.4,
-                          }}
-                        />
-                      ))}
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </div>
             </div>
-            </div>
-
 
             {/* Social Media Section - Clean Design */}
             <div className="space-y-8">
@@ -1233,41 +1511,232 @@ const Contact = () => {
                   </motion.a>
                 ))}
               </div>
+            </div>
 
-            {/* Call to Action */}
+            {/* Enhanced Call to Action Terminal */}
             <motion.div 
-              className="text-center mt-12"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3, duration: 0.8 }}
+              className="mt-16 relative"
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 3, duration: 1, type: "spring", stiffness: 80 }}
             >
-              <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 p-8 rounded-2xl border border-blue-500/30 backdrop-blur-sm">
-                <div className="flex items-center justify-center gap-3 mb-4">
-                  <Code2 className="w-8 h-8 text-blue-400" />
-                  <span className="text-blue-400 font-mono text-xl">Ready to Code Together?</span>
+              {/* Terminal-style CTA with 3D effects */}
+              <div className="relative bg-gradient-to-br from-black/90 via-blue-950/40 to-red-950/40 p-8 rounded-3xl border-2 border-cyan-500/40 backdrop-blur-xl overflow-hidden">
+                {/* Animated circuit pattern background */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <svg className="w-full h-full opacity-10" viewBox="0 0 400 200">
+                    <motion.path
+                      d="M50,50 L150,50 L150,100 L250,100 L250,150 L350,150"
+                      stroke="url(#circuit-gradient)"
+                      strokeWidth="2"
+                      fill="none"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 3, delay: 4, repeat: Infinity, repeatType: "reverse" }}
+                    />
+                    <motion.path
+                      d="M100,25 L200,25 L200,75 L300,75 L300,125 L380,125"
+                      stroke="url(#circuit-gradient-2)"
+                      strokeWidth="1.5"
+                      fill="none"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 2.5, delay: 4.5, repeat: Infinity, repeatType: "reverse" }}
+                    />
+                    <defs>
+                      <linearGradient id="circuit-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.8"/>
+                        <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.6"/>
+                        <stop offset="100%" stopColor="#ec4899" stopOpacity="0.4"/>
+                      </linearGradient>
+                      <linearGradient id="circuit-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#10b981" stopOpacity="0.6"/>
+                        <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.4"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
                 </div>
-                <p className="text-gray-300 text-sm mb-6 max-w-2xl mx-auto">
-                  Join our passionate community of developers, designers, and tech enthusiasts. 
-                  Let's build amazing projects and learn together!
-                </p>
-                <motion.button
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-mono font-bold transition-all"
-                  whileHover={{ 
-                    scale: 1.05,
-                    boxShadow: "0 0 30px rgba(59, 130, 246, 0.5)"
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  animate={{
-                    boxShadow: [
-                      "0 0 0px rgba(59, 130, 246, 0.3)",
-                      "0 0 20px rgba(59, 130, 246, 0.6)",
-                      "0 0 0px rgba(59, 130, 246, 0.3)"
-                    ]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
+
+
+
+                {/* Terminal header */}
+                <motion.div 
+                  className="flex items-center justify-between mb-8 pb-4 border-b border-cyan-400/20"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 3.5, duration: 0.8 }}
                 >
-                  Join TechnoJam Today!
-                </motion.button>
+                  <div className="flex items-center gap-3">
+                    <motion.div 
+                      className="flex gap-2"
+                      animate={{ 
+                        scale: [1, 1.1, 1],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse delay-100"></div>
+                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse delay-200"></div>
+                    </motion.div>
+                    <span className="text-cyan-400 font-mono text-sm">technojam@community:~/join$</span>
+                  </div>
+                  <motion.div 
+                    className="text-green-400 text-xs font-mono"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    [ONLINE] 300+ members active
+                  </motion.div>
+                </motion.div>
+
+                {/* Main content with enhanced styling */}
+                <div className="relative z-10 text-center">
+                  {/* Animated title */}
+                  <motion.div 
+                    className="mb-6"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 4, duration: 0.8 }}
+                  >
+                    <div className="flex items-center justify-center gap-4 mb-4">
+                      <motion.div
+                        animate={{ rotate: [0, 360] }}
+                        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                      >
+                        <Code2 className="w-10 h-10 text-cyan-400" />
+                      </motion.div>
+                      
+                      <motion.h2 
+                        className="text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-2xl md:text-3xl font-mono font-bold"
+                        animate={{ 
+                          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                        }}
+                        style={{ backgroundSize: "200% 200%" }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                      >
+                        <TypeWriter text="Initialize Your Journey" delay={100} />
+                      </motion.h2>
+                    </div>
+
+                    {/* Terminal command simulation */}
+                    <motion.div 
+                      className="bg-black/50 p-4 rounded-lg border border-green-500/30 mb-6 text-left max-w-2xl mx-auto"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 4.5, duration: 0.6 }}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-green-400">$</span>
+                        <TypeWriter text="./init_developer_journey --community=technojam --skill=unlimited" delay={80} />
+                      </div>
+                      <motion.div 
+                        className="text-yellow-400 text-sm"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 7, duration: 0.5 }}
+                      >
+                        [INFO] Connecting to TechnoJam network...<br/>
+                        [SUCCESS] Welcome to the future of learning! 🚀
+                      </motion.div>
+                    </motion.div>
+                  </motion.div>
+
+                  {/* Description with glitch effect */}
+                  <motion.p 
+                    className="text-gray-300 text-base md:text-lg mb-8 max-w-3xl mx-auto leading-relaxed"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 8, duration: 0.8 }}
+                  >
+                    <span className="text-cyan-400 font-mono">throttle_to_learn()</span> with our passionate community of 
+                    <span className="text-blue-400 font-semibold"> developers</span>, 
+                    <span className="text-purple-400 font-semibold"> designers</span>, and 
+                    <span className="text-pink-400 font-semibold"> tech enthusiasts</span>. 
+                    Build amazing projects, share knowledge, and level up together!
+                  </motion.p>
+
+                  {/* Enhanced action buttons with futuristic design */}
+                  <div className="flex flex-col sm:flex-row gap-8 justify-center items-center mb-8">
+                    {/* Primary CTA Button - Join Now */}
+                    <motion.button
+                      className="group relative bg-gradient-to-br from-blue-600 via-purple-700 to-pink-600 text-white px-5 py-3 font-mono font-bold text-xl overflow-hidden shadow-xl border-2 border-transparent"
+                      initial={{ opacity: 0, y: 50, rotateX: -15 }}
+                      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                      transition={{ delay: 8.5, duration: 0.8, type: "spring" }}
+                      whileHover={{ 
+                        scale: 1.02,
+                        rotateY: 1,
+                        boxShadow: "0 0 15px rgba(59, 130, 246, 0.15), 0 0 30px rgba(147, 51, 234, 0.08)",
+                        transition: { duration: 0.4, ease: "easeOut" }
+                      }}
+                      whileTap={{ scale: 0.92 }}
+                      style={{ transformStyle: "preserve-3d" }}
+                      onClick={openTerminal}
+                    >
+                      {/* Subtle hover overlay */}
+                      <motion.div
+                        className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-500/20 via-purple-600/20 to-pink-500/20 opacity-0 group-hover:opacity-100"
+                        transition={{
+                          duration: 0.4,
+                          ease: "easeInOut"
+                        }}
+                      />
+                      
+                      {/* Gentle border glow */}
+                      <motion.div
+                        className="absolute inset-0 rounded-3xl border border-blue-400/30 opacity-0 group-hover:opacity-100"
+                        transition={{ duration: 0.3 }}
+                      />
+                      
+                      <span className="relative z-10 flex items-center gap-4">
+                       
+                          <Terminal className="w-7 h-7" />
+                        sudo join --now
+                        <motion.span
+                          animate={{ opacity: [1, 0] }}
+                          transition={{ duration: 0.8, repeat: Infinity }}
+                        >
+                          |
+                        </motion.span>
+                      </span>
+
+                      {/* Subtle scanning effect */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100"
+                        animate={{
+                          x: ["-100%", "200%"],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatDelay: 2
+                        }}
+                      />
+
+                      {/* Refined corner accents */}
+                      <div className="absolute top-2 left-2 w-3 h-3 border-l border-t border-blue-400/50 opacity-0 group-hover:opacity-80 transition-all duration-300" />
+                      <div className="absolute top-2 right-2 w-3 h-3 border-r border-t border-purple-400/50 opacity-0 group-hover:opacity-80 transition-all duration-300" />
+                      <div className="absolute bottom-2 left-2 w-3 h-3 border-l border-b border-purple-400/50 opacity-0 group-hover:opacity-80 transition-all duration-300" />
+                      <div className="absolute bottom-2 right-2 w-3 h-3 border-r border-b border-blue-400/50 opacity-0 group-hover:opacity-80 transition-all duration-300" />
+                    </motion.button>
+
+                    
+                  </div>
+
+                  {/* Enhanced Real-time stats display */}
+                  
+                </div>
+
+                {/* Bottom terminal line */}
+                <motion.div 
+                  className="mt-8 pt-4 border-t border-cyan-400/20 flex items-center justify-between text-xs font-mono text-gray-500"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 10, duration: 0.8 }}
+                >
+                  <span>technojam v2.0.24 - Community Edition</span>
+
+                </motion.div>
               </div>
             </motion.div>
           </div>
@@ -1279,14 +1748,20 @@ const Contact = () => {
 
 // Main Component
 export default function Home() {
+  const [isTerminalVisible, setIsTerminalVisible] = useState(false)
+
+  const openTerminal = () => setIsTerminalVisible(true)
+  const closeTerminal = () => setIsTerminalVisible(false)
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-black via-blue-950/20 to-red-950/20 text-blue-400 font-mono">
       <MatrixRain />
-      <Navbar />
-      <Hero />
+      <Navbar openTerminal={openTerminal} />
+      <Hero openTerminal={openTerminal} />
       <Achievements />
       <Gallery />
-      <Contact />
+      <Contact openTerminal={openTerminal} />
+      <InteractiveTerminal isVisible={isTerminalVisible} onClose={closeTerminal} />
     </main>
   )
 }
