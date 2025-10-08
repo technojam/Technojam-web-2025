@@ -67,7 +67,7 @@ export const Contact = () => {
       icon: MessageCircle,
       title: "Discord Community",
       value: "TechnoJam Server",
-      url: "https://discord.gg/technojam",
+      url: "https://discord.com/invite/6ksUUABBkY",
       description: "Join 500+ active members",
       color: "purple",
       action: "Join Discord"

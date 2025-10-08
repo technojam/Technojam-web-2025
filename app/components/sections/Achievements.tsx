@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Star, Code2, Terminal, Rocket, Phone, Heart, Monitor } from 'lucide-react'
 import { TerminalWindow } from '../ui/TerminalWindow'
@@ -8,6 +8,18 @@ import { TypeWriter } from '../ui/TypeWriter'
 
 export const Achievements = () => {
   const [activeAchievementFilter, setActiveAchievementFilter] = useState('All')
+  const [isClient, setIsClient] = useState(false)
+  const [animatedCode, setAnimatedCode] = useState<string[]>([])
+
+  useEffect(() => {
+    setIsClient(true)
+    // Generate animated code strings on client side only
+    setAnimatedCode(
+      Array(5).fill(0).map(() => 
+        Array(10).fill(0).map(() => Math.random() > 0.5 ? '1' : '0').join('')
+      )
+    )
+  }, [])
 
   const achievementFilters = [
     { name: 'All', icon: Star, color: 'cyan' },
@@ -356,28 +368,30 @@ export const Achievements = () => {
                       </div>
 
                       {/* Animated code lines in background */}
-                      <div className="absolute top-0 right-0 opacity-5 pointer-events-none">
-                        {[...Array(5)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="text-green-400 font-mono text-xs"
-                            style={{ 
-                              transform: `translateY(${i * 20}px) translateX(${Math.random() * 100}px)` 
-                            }}
-                            animate={{
-                              x: [-100, 100, -100],
-                              opacity: [0, 0.3, 0]
-                            }}
-                            transition={{
-                              duration: 3 + i,
-                              repeat: Infinity,
-                              delay: i * 0.5
-                            }}
-                          >
-                            {`${Array(10).fill(0).map(() => Math.random() > 0.5 ? '1' : '0').join('')}`}
-                          </motion.div>
-                        ))}
-                      </div>
+                      {isClient && (
+                        <div className="absolute top-0 right-0 opacity-5 pointer-events-none">
+                          {animatedCode.map((codeString, i) => (
+                            <motion.div
+                              key={i}
+                              className="text-green-400 font-mono text-xs"
+                              style={{ 
+                                transform: `translateY(${i * 20}px) translateX(${i * 15}px)` 
+                              }}
+                              animate={{
+                                x: [-100, 100, -100],
+                                opacity: [0, 0.3, 0]
+                              }}
+                              transition={{
+                                duration: 3 + i,
+                                repeat: Infinity,
+                                delay: i * 0.5
+                              }}
+                            >
+                              {codeString}
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
                     </motion.div>
                   </motion.div>
                 ))}

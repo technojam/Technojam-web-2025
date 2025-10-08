@@ -1,9 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 
 // Import all components
-import { MatrixRain } from './components/ui/MatrixRain'
+const MatrixRain = dynamic(() => import('./components/ui/MatrixRain').then(mod => ({ default: mod.MatrixRain })), {
+  ssr: false,
+  loading: () => <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-20" />
+})
 import { Navbar } from './components/navigation/Navbar'  
 import { Hero } from './components/sections/Hero'
 import { Achievements } from './components/sections/Achievements'

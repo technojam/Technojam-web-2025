@@ -8,7 +8,11 @@ import { TerminalWindow } from '../ui/TerminalWindow'
 import { TypeWriter } from '../ui/TypeWriter'
 import { SystemStatus } from '../SystemStatus'
 
-export const Hero = () => {
+interface HeroProps {
+  openTerminal: () => void
+}
+
+export const Hero = ({ openTerminal }: HeroProps) => {
   const [bootSequence, setBootSequence] = useState(0)
   const [showMain, setShowMain] = useState(false)
 
@@ -139,6 +143,16 @@ export const Hero = () => {
                 <Code2 className="w-7 h-7" />
                 <span>./join_community</span>
               </motion.a>
+
+              <motion.button
+                onClick={openTerminal}
+                className="bg-gradient-to-r from-gray-800 to-gray-900 border border-red-400/50 text-red-400 px-4 py-3 font-bold font-mono text-lg hover:from-gray-700 hover:to-gray-800 hover:border-red-300 hover:text-red-300 transition-all flex items-center gap-3"
+                whileHover={{ rotateY: 2, boxShadow: "0 0 15px rgba(239, 68, 68, 0.4)" }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span>&gt;_</span>
+                <span>./open_terminal</span>
+              </motion.button>
             </motion.div>
 
             <SystemStatus />

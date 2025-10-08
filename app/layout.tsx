@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "TechnoJam - Technical Club",
   description: "Join TechnoJam, the premier technical club for innovators, developers, and tech enthusiasts. Explore cutting-edge technology, participate in events, and build the future together.",
+  icons: {
+    icon: '/tj.png',
+    shortcut: '/tj.png',
+    apple: '/tj.png',
+  },
 };
 
 export default function RootLayout({
@@ -24,6 +29,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/tj.png" type="image/png" />
+        <link rel="shortcut icon" href="/tj.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/tj.png" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

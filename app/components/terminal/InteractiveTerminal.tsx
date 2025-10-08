@@ -233,10 +233,18 @@ export const InteractiveTerminal = ({ isVisible, onClose }: InteractiveTerminalP
         ''
       ])
     } else if (cmd === 'date' || cmd === 'time') {
-      const now = new Date()
+      // Use a consistent format that won't cause hydration mismatch
+      const getFormattedDate = () => {
+        if (typeof window !== 'undefined') {
+          const now = new Date()
+          return now.toLocaleString()
+        }
+        return 'Loading...'
+      }
+      
       setHistory(prev => [...prev, 
         '[SUCCESS] System time synchronized!',
-        `[INFO] Current time: ${now.toLocaleString()}`,
+        `[INFO] Current time: ${getFormattedDate()}`,
         '[INFO] Location: TechnoJam Universe',
         '[INFO] Timeline: Innovation Era',
         ''
