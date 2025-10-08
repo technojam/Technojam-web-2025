@@ -6,16 +6,17 @@ export const MatrixRain = () => {
   const [drops, setDrops] = useState<Array<{id: number, x: number, chars: string[], color: string}>>([])
   
   useEffect(() => {
-    const chars = '01010101アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ{}[]()<>/\\|_+-=*&^%$#@!?'
+    // Use "throttle to learn" as complete phrase
+    const phrase = 'throttle to learn'
     const colors = ['text-red-400', 'text-blue-400', 'text-purple-400', 'text-pink-400', 'text-indigo-400', 'text-cyan-400', 'text-green-400', 'text-yellow-400']
     
     const createDrops = () => {
       const dropCount = 50 // Fixed number for consistency
       return Array.from({ length: dropCount }, (_, i) => ({
         id: i,
-        x: Math.random() * 100,
-        chars: Array.from({ length: Math.floor(Math.random() * 15) + 8 }, () => chars[Math.floor(Math.random() * chars.length)]),
-        color: colors[Math.floor(Math.random() * colors.length)]
+        x: (i * 2) % 100, // Distribute evenly across width
+        chars: phrase.split(''), // Use complete phrase as vertical text
+        color: colors[i % colors.length] // Cycle through colors
       }))
     }
     
@@ -30,7 +31,7 @@ export const MatrixRain = () => {
           className={`absolute ${drop.color} text-sm font-mono leading-tight`}
           style={{ 
             left: `${drop.x}%`,
-            top: `${Math.random() * 100}%`
+            top: `${(drop.id * 10) % 90}%` // Static positioning based on id
           }}
         >
           {drop.chars.map((char, i) => (

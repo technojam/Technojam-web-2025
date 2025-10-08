@@ -355,28 +355,27 @@ export const Achievements = () => {
                         </div>
                       </div>
 
-                      {/* Animated code lines in background */}
+                      {/* Static code lines in background */}
                       <div className="absolute top-0 right-0 opacity-5 pointer-events-none">
-                        {[...Array(5)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="text-green-400 font-mono text-xs"
-                            style={{ 
-                              transform: `translateY(${i * 20}px) translateX(${Math.random() * 100}px)` 
-                            }}
-                            animate={{
-                              x: [-100, 100, -100],
-                              opacity: [0, 0.3, 0]
-                            }}
-                            transition={{
-                              duration: 3 + i,
-                              repeat: Infinity,
-                              delay: i * 0.5
-                            }}
-                          >
-                            {`${Array(10).fill(0).map(() => Math.random() > 0.5 ? '1' : '0').join('')}`}
-                          </motion.div>
-                        ))}
+                        {[...Array(5)].map((_, i) => {
+                          // Use deterministic values based on index and member index
+                          const xOffset = ((index + i) * 17) % 100; // Deterministic horizontal offset
+                          const binaryCode = Array(10).fill(0).map((_, binIndex) => 
+                            ((index + i + binIndex) % 3) === 0 ? '1' : '0'
+                          ).join(''); // Deterministic binary pattern
+                          
+                          return (
+                            <div
+                              key={i}
+                              className="text-green-400 font-mono text-xs"
+                              style={{ 
+                                transform: `translateY(${i * 20}px) translateX(${xOffset}px)` 
+                              }}
+                            >
+                              {binaryCode}
+                            </div>
+                          )
+                        })}
                       </div>
                     </motion.div>
                   </motion.div>

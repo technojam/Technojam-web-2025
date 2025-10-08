@@ -28,6 +28,20 @@ export const Hero = ({ openTerminal }: HeroProps) => {
   ]
 
   useEffect(() => {
+    // Disable scrolling during boot sequence
+    if (!showMain) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [showMain])
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       if (bootSequence < bootMessages.length - 1) {
         setBootSequence(prev => prev + 1)
@@ -143,19 +157,13 @@ export const Hero = ({ openTerminal }: HeroProps) => {
             <TerminalWindow title="ascii_art.txt">
               <div className="font-mono text-xs leading-tight">
                 <pre className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent font-bold">{`
-████████╗███████╗ ██████╗██╗  ██╗███╗   ██╗ ██████╗ 
-╚══██╔══╝██╔════╝██╔════╝██║  ██║████╗  ██║██╔═══██╗
-   ██║   █████╗  ██║     ███████║██╔██╗ ██║██║   ██║
-   ██║   ██╔══╝  ██║     ██╔══██║██║╚██╗██║██║   ██║
-   ██║   ███████╗╚██████╗██║  ██║██║ ╚████║╚██████╔╝
-   ╚═╝   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ 
-
-      ██╗ █████╗ ███╗   ███╗
-      ██║██╔══██╗████╗ ████║  
-      ██║███████║██╔████╔██║  
- ██   ██║██╔══██║██║╚██╔╝██║  
- ╚█████╔╝██║  ██║██║ ╚═╝ ██║  
-  ╚════╝ ╚═╝  ╚═╝╚═╝     ╚═╝  
+████████╗███████╗ ██████╗██╗  ██╗███╗   ██╗ ██████╗      ██╗ █████╗ ███╗   ███╗
+╚══██╔══╝██╔════╝██╔════╝██║  ██║████╗  ██║██╔═══██╗     ██║██╔══██╗████╗ ████║
+   ██║   █████╗  ██║     ███████║██╔██╗ ██║██║   ██║     ██║███████║██╔████╔██║
+   ██║   ██╔══╝  ██║     ██╔══██║██║╚██╗██║██║   ██║██   ██║██╔══██║██║╚██╔╝██║
+   ██║   ███████╗╚██████╗██║  ██║██║ ╚████║╚██████╔╝╚█████╔╝██║  ██║██║ ╚═╝ ██║
+   ╚═╝   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝  ╚════╝ ╚═╝  ╚═╝╚═╝     ╚═╝
+                                                                            
                 `}</pre>
                 <div className="text-right mt-4 text-purple-400">
                   // Throttle to Learn
