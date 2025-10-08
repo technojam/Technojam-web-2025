@@ -39,6 +39,7 @@ export const Navbar = ({ openTerminal }: NavbarProps) => {
           <div className="hidden lg:flex items-center space-x-8 font-mono">
             {[
               { name: './home', cmd: 'cd ~' },
+              { name: './about', cmd: 'cat about_us.md' },
               { name: './achievements', cmd: 'cat achievements.log' },
               { name: './gallery', cmd: 'ls projects/' },
               { name: './contact', cmd: 'ping contact.dev' }

@@ -10,6 +10,7 @@ const MatrixRain = dynamic(() => import('./components/ui/MatrixRain').then(mod =
 })
 import { Navbar } from './components/navigation/Navbar'  
 import { Hero } from './components/sections/Hero'
+import { AboutUs } from './components/sections/AboutUs'
 import { Achievements } from './components/sections/Achievements'
 import { Gallery } from './components/sections/Gallery'
 import { Contact } from './components/sections/Contact'
@@ -27,6 +28,7 @@ export default function Home() {
       <MatrixRain />
       <Navbar openTerminal={openTerminal} />
       <Hero openTerminal={openTerminal} />
+      <AboutUs />
       <Achievements />
       <Gallery />
       <Contact />
