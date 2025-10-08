@@ -5,10 +5,6 @@ import { Github, Linkedin, Twitter, Instagram, Mail, MessageCircle, Terminal } f
 import { TerminalWindow } from '../ui/TerminalWindow'
 import { TypeWriter } from '../ui/TypeWriter'
 
-interface ContactProps {
-  openTerminal: () => void
-}
-
 export const Contact = () => {
   const socialLinks = [
     {

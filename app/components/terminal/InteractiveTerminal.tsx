@@ -32,7 +32,7 @@ export const InteractiveTerminal = ({ isVisible, onClose }: InteractiveTerminalP
   }, [history])
 
   // Enhanced color rendering function
-  const renderColoredLine = (line: string, index: number) => {
+  const renderColoredLine = (line: string) => {
     // Command prompt lines
     if (line.includes('technojam@dev:~$')) {
       return <span className="text-emerald-400 font-bold">{line}</span>
@@ -311,7 +311,7 @@ export const InteractiveTerminal = ({ isVisible, onClose }: InteractiveTerminalP
             >
               {history.map((line, index) => (
                 <div key={index} className="mb-1 leading-relaxed">
-                  {renderColoredLine(line, index)}
+                  {renderColoredLine(line)}
                 </div>
               ))}
               

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Star, Trophy, Monitor, Users, Code2, Heart, ExternalLink, Calendar, Users2, Play } from 'lucide-react'
+import { Star, Trophy, Monitor, Users, Code2, Heart, ExternalLink, Calendar, Users2 } from 'lucide-react'
 import { TerminalWindow } from '../ui/TerminalWindow'
 import { TypeWriter } from '../ui/TypeWriter'
 

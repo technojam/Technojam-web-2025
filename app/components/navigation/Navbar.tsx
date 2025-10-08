@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Terminal } from 'lucide-react'
 import { TypeWriter } from '../ui/TypeWriter'
@@ -10,8 +9,6 @@ interface NavbarProps {
 }
 
 export const Navbar = ({ openTerminal }: NavbarProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
   return (
     <motion.nav 
       className="fixed top-0 w-full z-50 bg-gradient-to-r from-black/95 via-blue-950/30 to-red-950/30 backdrop-blur border-b border-purple-500"
@@ -26,7 +23,7 @@ export const Navbar = ({ openTerminal }: NavbarProps) => {
             whileHover={{ rotateY: 2, boxShadow: "0 0 10px rgba(0, 255, 255, 0.3)" }}
           >
             <motion.img 
-              src="/tj.png" 
+              src="/tj.webp" 
               alt="TechnoJam Logo" 
               className="h-10 w-10 rounded-full border-2 border-cyan-400/50"
               whileHover={{ rotate: 360, borderColor: "#00ffff" }}

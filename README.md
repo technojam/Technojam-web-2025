@@ -1,7 +1,7 @@
 # 🚀 TechnoJam - Official Website 2025
 
 <div align="center">
-  <img src="public/tj.png" alt="TechnoJam Logo" width="120" height="120">
+  <img src="public/tj.webp" alt="TechnoJam Logo" width="120" height="120">
   
   **"Throttle to Learn"**
   
@@ -135,9 +135,9 @@ TechnoJam-web-2025/
 │   ├── globals.css             # Global styles
 │   ├── layout.tsx              # Root layout
 │   ├── page.tsx                # Home page
-│   └── icon.png                # Favicon (TechnoJam logo)
+│   └── icon.webp               # Favicon (TechnoJam logo)
 ├── public/                      # Static assets
-│   ├── tj.png                  # TechnoJam logo
+│   ├── tj.webp                 # TechnoJam logo (WebP format)
 │   └── ...                     # Other assets
 ├── next.config.ts              # Next.js configuration
 ├── tailwind.config.js          # Tailwind CSS configuration
