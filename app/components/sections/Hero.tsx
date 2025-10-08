@@ -2,17 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, Code2, Terminal } from 'lucide-react'
+import { ChevronDown, Code2 } from 'lucide-react'
 import { MatrixRain } from '../ui/MatrixRain'
 import { TerminalWindow } from '../ui/TerminalWindow'
 import { TypeWriter } from '../ui/TypeWriter'
 import { SystemStatus } from '../SystemStatus'
 
-interface HeroProps {
-  openTerminal: () => void
-}
-
-export const Hero = ({ openTerminal }: HeroProps) => {
+export const Hero = () => {
   const [bootSequence, setBootSequence] = useState(0)
   const [showMain, setShowMain] = useState(false)
 
@@ -122,7 +118,7 @@ export const Hero = ({ openTerminal }: HeroProps) => {
                   transition={{ delay: 4 }}
                   className="text-gray-300 text-sm leading-relaxed"
                 >
-                  "Throttle to Learn" - A vibrant coding community where developers, designers, and tech enthusiasts 
+                  &quot;Throttle to Learn&quot; - A vibrant coding community where developers, designers, and tech enthusiasts 
                   come together to innovate, collaborate, and build amazing projects. Join our diverse community of learners!
                 </motion.div>
               </div>
@@ -156,7 +152,7 @@ export const Hero = ({ openTerminal }: HeroProps) => {
           >
             <TerminalWindow title="ascii_art.txt">
               <div className="font-mono text-xs leading-tight">
-                <pre className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent font-bold">{`
+                <pre className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent font-bold text-[0.7rem]">{`
 ████████╗███████╗ ██████╗██╗  ██╗███╗   ██╗ ██████╗      ██╗ █████╗ ███╗   ███╗
 ╚══██╔══╝██╔════╝██╔════╝██║  ██║████╗  ██║██╔═══██╗     ██║██╔══██╗████╗ ████║
    ██║   █████╗  ██║     ███████║██╔██╗ ██║██║   ██║     ██║███████║██╔████╔██║
@@ -165,9 +161,9 @@ export const Hero = ({ openTerminal }: HeroProps) => {
    ╚═╝   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝  ╚════╝ ╚═╝  ╚═╝╚═╝     ╚═╝
                                                                             
                 `}</pre>
-                <div className="text-right mt-4 text-purple-400">
-                  // Throttle to Learn
-                </div>
+              <div className="text-right mt-4 text-purple-400">
+                {'// Throttle to Learn'}
+              </div>
               </div>
             </TerminalWindow>
           </motion.div>

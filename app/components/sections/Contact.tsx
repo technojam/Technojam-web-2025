@@ -57,8 +57,8 @@ export const Contact = () => {
     {
       icon: Mail,
       title: "Email Us",
-      value: "hello@technojam.club",
-      url: "mailto:hello@technojam.club",
+      value: "technojam@galgotiasuniversity.edu.in",
+      url: "mailto:technojam@galgotiasuniversity.edu.in",
       description: "Get in touch for collaborations",
       color: "red",
       action: "Send Email"
