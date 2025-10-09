@@ -34,7 +34,7 @@ export const AboutUs = () => {
   ]
 
   return (
-    <section id="about" className="min-h-screen flex items-center justify-center p-8 relative">
+    <section id="about" className="min-h-screen flex items-start sm:items-center justify-center px-4 sm:px-8 py-16 sm:py-20 relative scroll-mt-24 sm:scroll-mt-28">
       <div className="max-w-7xl mx-auto w-full">
         <TerminalWindow title="/about/technojam/">
           <div className="space-y-12">

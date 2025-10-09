@@ -13,7 +13,10 @@ export const MatrixRain = () => {
     const colors = ['text-red-400', 'text-blue-400', 'text-purple-400', 'text-pink-400', 'text-indigo-400', 'text-cyan-400', 'text-green-400', 'text-yellow-400']
     
     const createDrops = () => {
-      const dropCount = 50 // Fixed number for consistency
+      // Prefer fewer drops on small screens and when user prefers reduced motion
+      const isSmallScreen = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 640px)').matches
+      const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const dropCount = prefersReducedMotion ? 0 : (isSmallScreen ? 18 : 50)
       return Array.from({ length: dropCount }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
@@ -32,7 +35,7 @@ export const MatrixRain = () => {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-20">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-10 sm:opacity-20">
       {drops.map((drop) => (
         <div
           key={drop.id}

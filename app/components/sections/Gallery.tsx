@@ -92,54 +92,7 @@ export const Gallery = () => {
       teamSize: "25 contributors",
       category: "Meetups"
     },
-    {
-      name: "E-Commerce Platform",
-      type: "Project Demo",
-      date: "Jun 2024",
-      status: "DEPLOYED",
-      icon: Code2,
-      color: "blue",
-      description: "Full-stack e-commerce solution with React & Node.js",
-      image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400&h=300&fit=crop",
-      teamSize: "6 developers",
-      category: "Projects"
-    },
-    {
-      name: "Mobile Banking App",
-      type: "Project Showcase", 
-      date: "May 2024",
-      status: "INNOVATIVE",
-      icon: Code2,
-      color: "blue",
-      description: "Secure mobile banking app with biometric authentication",
-      image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=300&fit=crop",
-      teamSize: "4 developers",
-      category: "Projects"
-    },
-    {
-      name: "Tech Fest 2024",
-      type: "Annual Event", 
-      date: "Apr 2024",
-      status: "GRAND",
-      icon: Star,
-      color: "cyan",
-      description: "Annual technology festival with competitions & exhibitions",
-      image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop",
-      teamSize: "200+ attendees",
-      category: "Events"
-    },
-    {
-      name: "Coding Competition",
-      type: "Contest", 
-      date: "Mar 2024",
-      status: "COMPETITIVE",
-      icon: Trophy,
-      color: "yellow",
-      description: "Internal coding competition with algorithmic challenges",
-      image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=300&fit=crop",
-      teamSize: "60 participants",
-      category: "Events"
-    }
+    
   ]
 
   const filteredItems = activeFilter === 'All' 
@@ -147,7 +100,7 @@ export const Gallery = () => {
     : communityItems.filter(item => item.category === activeFilter)
 
   return (
-    <section id="gallery" className="min-h-screen flex items-center justify-center p-8">
+    <section id="gallery" className="min-h-screen flex items-start sm:items-center justify-center px-4 sm:px-8 py-16 sm:py-20 scroll-mt-24 sm:scroll-mt-28">
       <div className="max-w-7xl mx-auto w-full">
         <TerminalWindow title="/media/community/gallery/">
           <div className="space-y-5">

@@ -119,51 +119,8 @@ export const Achievements = () => {
       color: "pink",
       badge: "🏀",
       category: "Design"
-    },
-    { 
-      name: "Rohit Mehta", 
-      role: "DevOps Engineer", 
-      achievement: "Kubernetes Certified", 
-      projects: "18+", 
-      skills: ["Docker", "K8s", "AWS"],
-      avatar: "👨‍🔧",
-      color: "orange",
-      badge: "⚙️",
-      category: "DevOps"
-    },
-    { 
-      name: "Amit Sharma", 
-      role: "Backend Developer", 
-      achievement: "Microservices Architecture Expert", 
-      projects: "16+", 
-      skills: ["Node.js", "MongoDB", "Redis"],
-      avatar: "👨‍💻",
-      color: "yellow",
-      badge: "🔧",
-      category: "Backend"
-    },
-    { 
-      name: "Neha Gupta", 
-      role: "Backend Engineer", 
-      achievement: "System Design Champion", 
-      projects: "13+", 
-      skills: ["Java", "Spring Boot", "PostgreSQL"],
-      avatar: "👩‍💻",
-      color: "yellow",
-      badge: "🏗️",
-      category: "Backend"
-    },
-    { 
-      name: "Sanjay Patel", 
-      role: "Cloud Architect", 
-      achievement: "AWS Solutions Architect", 
-      projects: "11+", 
-      skills: ["AWS", "Terraform", "Jenkins"],
-      avatar: "👨‍💼",
-      color: "orange",
-      badge: "☁️",
-      category: "DevOps"
     }
+
   ]
 
   const filteredAchievements = activeAchievementFilter === 'All' 
@@ -171,7 +128,7 @@ export const Achievements = () => {
     : memberAchievements.filter(member => member.category === activeAchievementFilter)
 
   return (
-    <section id="achievements" className="min-h-screen flex items-center justify-center p-8">
+    <section id="achievements" className="min-h-screen flex items-start sm:items-center justify-center px-4 sm:px-8 py-16 sm:py-20 scroll-mt-24 sm:scroll-mt-28">
       <div className="max-w-7xl mx-auto w-full">
         <TerminalWindow title="/var/log/member-achievements/">
           <div className="space-y-6">

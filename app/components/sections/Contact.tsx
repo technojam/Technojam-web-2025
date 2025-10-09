@@ -71,7 +71,7 @@ export const Contact = () => {
   ]
 
   return (
-    <section id="contact" className="min-h-screen flex items-center justify-center p-8 relative overflow-hidden">
+    <section id="contact" className="min-h-screen flex items-start sm:items-center justify-center px-4 sm:px-8 py-16 sm:py-20 relative overflow-hidden scroll-mt-24 sm:scroll-mt-28">
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <TerminalWindow title="/var/connect/communication-hub/">
           <div className="space-y-12">
@@ -307,13 +307,13 @@ export const Contact = () => {
                     </motion.div>
                     <span className="text-cyan-400 font-mono text-sm ">technojam@community:~/join$</span>
                   </div>
-                  <motion.div
+                  {/* <motion.div
                     className="text-green-400 text-xs font-mono"
                     animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   >
                     300+ members active
-                  </motion.div>
+                  </motion.div> */}
                 </motion.div>
 
                 {/* Main content with enhanced styling */}
